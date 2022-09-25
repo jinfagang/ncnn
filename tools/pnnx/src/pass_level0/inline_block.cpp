@@ -136,7 +136,7 @@ static void inlineCalls(torch::jit::Block* block, const std::vector<std::string>
 void inline_block(std::shared_ptr<torch::jit::Graph>& graph, const std::vector<std::string>& module_operators)
 {
     std::set<std::string> inlined_modules;
-
+    fprintf(stderr, "TORCHVERSION: %d %d\n", TORCH_VERSION_MAJOR, TORCH_VERSION_MINOR);
     inlineCalls(graph->block(), module_operators, inlined_modules);
 
     for (const auto& x : inlined_modules)

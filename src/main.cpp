@@ -45,12 +45,12 @@ int main() {
   int c = 1;
   int h = 6;
   int w = 8;
-  int size = c * h * w;
-  // std::vector<float> data(size);
-  std::vector<int> data = {1, 3, 5, 4, 2};
-  // for (int i = 0; i != size; ++i) {
-  //   data[i] = i;
-  // }
+  int size = 5;
+  std::vector<int> data(size);
+  // std::vector<int> data(1, 3, 5, 4, 2);
+  for (int i = 0; i != size; ++i) {
+    data[i] = i;
+  }
   ncnn::Option opt;
   opt.num_threads = 1;
   ncnn::Net net;
