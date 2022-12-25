@@ -25,6 +25,7 @@
 #include <float.h>
 #include <stdio.h>
 #include <vector>
+#include <iostream>
 
 //#define YOLOV5_V60 1 //YOLOv5 v6.0
 #define YOLOV5_V62 1 //YOLOv5 v6.2 export  onnx model method https://github.com/shaoshengsong/yolov5_62_export_ncnn
@@ -270,6 +271,20 @@ static void generate_proposals(const ncnn::Mat& anchors, int stride, const ncnn:
     }
 }
 
+void static pretty_print(const ncnn::Mat &m) {
+  for (int q = 0; q < m.c; q++) {
+    const float *ptr = m.channel(q);
+    for (int y = 0; y < m.h; y++) {
+      for (int x = 0; x < m.w; x++) {
+        printf("%f ", ptr[x]);
+      }
+      ptr += m.w;
+      printf("\n");
+    }
+    printf("------------------------\n");
+  }
+}
+
 static int detect_yolov5(const cv::Mat& bgr, std::vector<Object>& objects)
 {
     ncnn::Net yolov5;
@@ -333,6 +348,9 @@ static int detect_yolov5(const cv::Mat& bgr, std::vector<Object>& objects)
 
     const float norm_vals[3] = {1 / 255.f, 1 / 255.f, 1 / 255.f};
     in_pad.substract_mean_normalize(0, norm_vals);
+
+    pretty_print(in_pad);
+    std::cout << "w: " << in_pad.w << ", h: " << in_pad.h << ", c: " << in_pad.c << std::endl;
 
     ncnn::Extractor ex = yolov5.create_extractor();
 
